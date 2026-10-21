@@ -1,0 +1,52 @@
+ Analysis type         EIGEN 
+ Mode nr.              1     
+ Eigen frequency       3.796E+01
+ Result                DISPLA TOTAL  TRANSL
+ Axes                  GLOBAL
+  
+ Nodnr        DtX          DtY    
+     1    3.40918E-01  0.00000E+00
+     2    3.20421E-02 -1.92608E-02
+     3    1.77069E-01 -9.97681E-01
+  
+  
+  
+ Analysis type         EIGEN 
+ Mode nr.              2     
+ Eigen frequency       1.142E+02
+ Result                DISPLA TOTAL  TRANSL
+ Axes                  GLOBAL
+  
+ Nodnr        DtX          DtY    
+     1   -5.44608E-01  0.00000E+00
+     2   -9.99981E-01 -8.59369E-02
+     3   -5.39317E-01 -3.45897E-01
+  
+  
+  
+ Analysis type         EIGEN 
+ Mode nr.              3     
+ Eigen frequency       1.744E+02
+ Result                DISPLA TOTAL  TRANSL
+ Axes                  GLOBAL
+  
+ Nodnr        DtX          DtY    
+     1   -9.32839E-01  0.00000E+00
+     2   -3.20770E-01  1.86412E-01
+     3   -7.47872E-01 -3.19566E-01
+  
+  
+  
+ Analysis type         EIGEN 
+ Mode nr.              4     
+ Eigen frequency       3.104E+02
+ Result                DISPLA TOTAL  TRANSL
+ Axes                  GLOBAL
+  
+ Nodnr        DtX          DtY    
+     1    2.12301E-01  0.00000E+00
+     2   -5.24376E-01 -4.69717E-01
+     3   -1.95317E-01  8.91948E-01
+  
+  
+  

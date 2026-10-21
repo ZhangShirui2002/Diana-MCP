@@ -1,0 +1,63 @@
+ 输出 2                                                                                                                    Page 1
+  
+ Analysis type         NONLIN
+ Step nr.              1     
+ Load factor           2.500E-01 
+ Result                DISPLA TOTAL  TRANSL
+ Axes                  GLOBAL
+  
+ Nodnr       TDtX       TDtY  
+     1    3.312E-05  0.000E+00
+     2    1.051E-06 -1.671E-06
+     3    1.656E-05 -1.090E-04
+     4    3.207E-05 -1.671E-06
+ 输出 2                                                                                                                    Page 2
+  
+ Nodnr       TDtX       TDtY  
+ 输出 2                                                                                                                    Page 3
+  
+ Nodnr       TDtX       TDtY  
+  
+  
+ Analysis type         NONLIN
+ Step nr.              1     
+ Load factor           2.500E-01 
+ Result                FORCE  REACTI TRANSL
+ Axes                  GLOBAL
+  
+ Nodnr       FBX        FBY   
+     1    0.000E+00  1.250E+03
+     5   -6.219E-09  1.250E+03
+  
+  
+  
+ Analysis type         NONLIN
+ Step nr.              2     
+ Load factor           5.000E-01 
+ Result                DISPLA TOTAL  TRANSL
+ Axes                  GLOBAL
+  
+ Nodnr       TDtX       TDtY  
+     1    6.623E-05  0.000E+00
+     2    2.102E-06 -3.342E-06
+     3    3.312E-05 -2.181E-04
+     4    6.413E-05 -3.342E-06
+ 输出 2                                                                                                                   Page 35
+  
+ Nodnr       TDtX       TDtY  
+ 输出 2                                                                                                                   Page 36
+  
+ Nodnr       TDtX       TDtY  
+  
+ Analysis type         NONLIN
+ Step nr.              2     
+ Load factor           5.000E-01 
+ Result                FORCE  REACTI TRANSL
+ Axes                  GLOBAL
+  
+ Nodnr       FBX        FBY   
+     1    0.000E+00  2.500E+03
+     5   -7.271E-09  2.500E+03
+  
+  
+  

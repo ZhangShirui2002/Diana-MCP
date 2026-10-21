@@ -1,0 +1,48 @@
+ Analysis type         LINSTA
+ Load case nr.         1     
+ Result                DISPLA TOTAL  TRANSL
+ Axes                  GLOBAL
+  
+ Nodnr       DtX        DtY           X0         Y0   
+     3    6.623E-05 -4.361E-04    2.000E+00  4.000E-01
+     6    6.623E-05 -4.321E-04    2.000E+00  0.000E+00
+  
+  
+ Analysis type         LINSTA
+ Load case nr.         1     
+ Result                STRESS TOTAL  CAUCHY
+ Operation             PRINCI
+ Location of results   INTPNT
+  
+ Elmnr Intpt        S1         S2         S3        xX    xY    xZ    yX    yY    yZ    zX    zY    zZ 
+     1     1    1.166E+03  2.121E+02  0.000E+00    0.70 -0.71  0.71                                    
+           2   -3.660E+02 -2.836E+03  0.000E+00   -0.74 -0.67  0.67                                    
+           3   -3.875E+02 -2.805E+03  0.000E+00   -0.68 -0.74  0.74                                    
+           4    1.310E+03 -1.764E+04  0.000E+00   -0.71 -0.71  0.71                                    
+  
+  
+  
+ Analysis type         LINSTA
+ Load case nr.         2     
+ Result                DISPLA TOTAL  TRANSL
+ Axes                  GLOBAL
+  
+ Nodnr       DtX        DtY           X0         Y0   
+     3    6.115E-06 -1.325E-05    2.000E+00  4.000E-01
+     6    9.260E-06 -1.321E-05    2.000E+00  0.000E+00
+  
+  
+ Analysis type         LINSTA
+ Load case nr.         2     
+ Result                STRESS TOTAL  CAUCHY
+ Operation             PRINCI
+ Location of results   INTPNT
+  
+ Elmnr Intpt        S1         S2         S3        xX    xY    xZ    yX    yY    yZ    zX    zY    zZ 
+     1     1   -1.523E-07 -1.030E-06  0.000E+00   -0.70 -0.71  0.71                                    
+           2    1.992E-06  3.145E-07  0.000E+00   -0.71  0.70 -0.70                                    
+           3    2.118E-06  2.846E-07  0.000E+00    0.69 -0.72  0.72                                    
+           4    1.406E-05 -8.077E-07  0.000E+00    0.70 -0.71  0.71                                    
+  
+  
+  

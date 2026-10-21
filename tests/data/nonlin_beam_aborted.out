@@ -1,0 +1,478 @@
+     1:*FILOS
+     2:INITIA
+ FILOS FILE INITIALIZED
+ DI= 150   BF= 4096  16384   65536   262144   1048576
+     3:*INPUT
+ /DIANA/DC/ST33    16:52:15      0.12-CPU     0.12-IO        7-FA   BEGIN 
+     4:*NONLIN LABEL="Structural nonlinear"
+     5:  BEGIN EXECUT
+     6:    BEGIN LOAD
+     7:      LOADNR 1
+     8:      STEPS EXPLIC SIZES 0.25(12)
+     9:    END LOAD
+    10:    BEGIN ITERAT
+    11:      MAXITE 20
+    12:      METHOD NEWTON
+    13:    END ITERAT
+    14:  END EXECUT
+    15:  SOLVE PARDIS
+    16:  BEGIN OUTPUT
+    17:    TEXT 输出
+    18:    BINARY
+    19:    SELECT STEPS ALL /
+    20:  END OUTPUT
+    21:  BEGIN OUTPUT
+    22:    TEXT "输出 2"
+    23:    TABULA
+    24:    LAYOUT
+    25:    SELECT STEPS ALL /
+    26:    DISPLA TOTAL TRANSL GLOBAL X Y Z
+    27:    FORCE REACTI TRANSL GLOBAL X Y Z
+    28:  END OUTPUT
+    29:*END
+0
+              $$$$$$$    $$$$$$$$     $$     $$$     $$     $$
+              $$$$$$$$$  $$$$$$$$     $$     $$$$    $$     $$
+              $$     $$     $$       $$$$    $$$$    $$    $$$$
+              $$      $$    $$       $$$$    $$ $$   $$    $$$$
+              $$      $$    $$      $$  $$   $$ $$$  $$   $$  $$
+              $$      $$    $$      $$  $$   $$  $$$ $$   $$  $$
+              $$      $$    $$     $$$$$$$$  $$   $$ $$  $$$$$$$$
+              $$     $$     $$     $$$$$$$$  $$    $$$$  $$$$$$$$
+              $$$$$$$$$  $$$$$$$$ $$      $$ $$    $$$$ $$      $$
+              $$$$$$$    $$$$$$$$ $$      $$ $$     $$$ $$      $$
+
+
+
+ ****************************************************************************************
+ ****************************************************************************************
+ ***                                                                                  ***
+ *** : Diana Datafile written by Diana 10.5                                           ***
+ ***                                                                                  ***
+ ****************************************************************************************
+ ****************************************************************************************
+ *** DIANA RELEASE 10.5  LATEST UPDATE: 2021-05-01 07:33:44                           ***
+ ****************************************************************************************
+1
+ /DIANA/AP/IN51    16:52:16      0.55-CPU     0.42-IO       92-FA   BEGIN 
+ /DIANA/AP/NL41    16:52:17      1.44-CPU     0.72-IO      120-FA   BEGIN 
+     ELEM. STIFFNESS STORED.
+     RHS-VECTORS INITIALIZED: ML=     1 ND=    4194 SF.RHSIDE
+     EXTER. LOAD INITIALIZED: ML=     1 ND=    4194 SF.EXTLOD
+     CONST.DISP. INITIALIZED: ML=     1 ND=    4194 SF.DISCON
+     NODAL LOADS TO RHS-VECT: NV=     1 NL=     1 SF.RHSIDE
+     NODAL LOADS TO EXT.LOAD: NV=     1 NL=     1 SF.EXTLOD
+  
+     SUM OF EXT.LOAD TO CALC: ML=     1 ND=    4194 SF.EXTLOD
+  
+ SUM OF EXTERNAL LOADS:
+ ======================
+ LOADSET POSITION  TR  X       TR  Y       TR  Z       RO  X       RO  Y       RO  Z
+       1           0.0000E+00 -0.1000E+05  0.0000E+00  0.0000E+00  0.0000E+00 -0.2000E+05
+  ANALYSIS INCLUDES:
+ 
+    PHYSICALLY NONLINEAR BEHAVIOR:
+      TOTAL STRAIN-BASED CRACK MODEL 
+ 
+ 
+  STEP      1 INITIATED:
+   LOAD INCREMENT:  LOADING( 1) *   2.500E-01
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.41E-11 (INIT. RES= 0.25E+04) NI=    1
+ 
+  STEP      1 : DISPLACEMENT NORM =  3.541E-03         TOLERANCE =  1.000E-02
+  STEP      1 :       FORCE  NORM =  3.062E+03         TOLERANCE =  1.000E-02
+ 
+  RELATIVE      OUT OF BALANCE FORCE   =  3.887E-12          CHECK = TRUE
+ 
+  STEP      1 TERMINATED, CONVERGENCE AFTER   0 ITERATIONS
+   TOTAL LOAD FACTOR:  LOADING( 1) *   2.500E-01
+ 
+   PLASTICITY LOGGING SUMMARY
+   GROUP NAME          PLAST, PRV. PL, CRITIC, PLAST NEW, PRV.PL NEW, CRITIC NEW
+   TOTAL MODEL             0        0       0          0           0           0
+   CRACKING LOGGING SUMMARY
+   GROUP NAME               CRACK,     OPEN,   CLOSED,   ACTIVE,   INACTI,   ARISES, RE-OPENS,   CLOSES
+   TOTAL MODEL                  0         0         0         0         0         0         0         0
+     CUMULATIVE REACTION:         FORCE X        FORCE Y
+                                0.62193E-08    -0.25000E+04
+  
+      TABULA file ss_beam.tb opened
+ 
+  STEP      2 INITIATED:
+   LOAD INCREMENT:  LOADING( 1) *   2.500E-01
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.41E-11 (INIT. RES= 0.25E+04) NI=    1
+ 
+  STEP      2 : DISPLACEMENT NORM =  3.541E-03         TOLERANCE =  1.000E-02
+  STEP      2 :       FORCE  NORM =  6.124E+03         TOLERANCE =  1.000E-02
+ 
+  RELATIVE      OUT OF BALANCE FORCE   =  2.029E-12          CHECK = TRUE
+ 
+  STEP      2 TERMINATED, CONVERGENCE AFTER   0 ITERATIONS
+   TOTAL LOAD FACTOR:  LOADING( 1) *   5.000E-01
+ 
+   PLASTICITY LOGGING SUMMARY
+   GROUP NAME          PLAST, PRV. PL, CRITIC, PLAST NEW, PRV.PL NEW, CRITIC NEW
+   TOTAL MODEL             0        0       0          0           0           0
+   CRACKING LOGGING SUMMARY
+   GROUP NAME               CRACK,     OPEN,   CLOSED,   ACTIVE,   INACTI,   ARISES, RE-OPENS,   CLOSES
+   TOTAL MODEL                  0         0         0         0         0         0         0         0
+     CUMULATIVE REACTION:         FORCE X        FORCE Y
+                                0.72711E-08    -0.50000E+04
+  
+ 
+  STEP      3 INITIATED:
+   LOAD INCREMENT:  LOADING( 1) *   2.500E-01
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.43E-11 (INIT. RES= 0.25E+04) NI=    1
+ 
+  STEP      3 : DISPLACEMENT NORM =  3.541E-03         TOLERANCE =  1.000E-02
+  STEP      3 :       FORCE  NORM =  9.186E+03         TOLERANCE =  1.000E-02
+ 
+  RELATIVE      OUT OF BALANCE FORCE   =  1.402E-12          CHECK = TRUE
+ 
+  STEP      3 TERMINATED, CONVERGENCE AFTER   0 ITERATIONS
+   TOTAL LOAD FACTOR:  LOADING( 1) *   7.500E-01
+ 
+   PLASTICITY LOGGING SUMMARY
+   GROUP NAME          PLAST, PRV. PL, CRITIC, PLAST NEW, PRV.PL NEW, CRITIC NEW
+   TOTAL MODEL             0        0       0          0           0           0
+   CRACKING LOGGING SUMMARY
+   GROUP NAME               CRACK,     OPEN,   CLOSED,   ACTIVE,   INACTI,   ARISES, RE-OPENS,   CLOSES
+   TOTAL MODEL                  0         0         0         0         0         0         0         0
+     CUMULATIVE REACTION:         FORCE X        FORCE Y
+                                0.79177E-08    -0.75000E+04
+  
+ 
+  STEP      4 INITIATED:
+   LOAD INCREMENT:  LOADING( 1) *   2.500E-01
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.40E-11 (INIT. RES= 0.25E+04) NI=    1
+ 
+  STEP      4 : DISPLACEMENT NORM =  3.541E-03         TOLERANCE =  1.000E-02
+  STEP      4 :       FORCE  NORM =  1.225E+04         TOLERANCE =  1.000E-02
+ 
+  RELATIVE      OUT OF BALANCE FORCE   =  1.020E-12          CHECK = TRUE
+ 
+  STEP      4 TERMINATED, CONVERGENCE AFTER   0 ITERATIONS
+   TOTAL LOAD FACTOR:  LOADING( 1) *   1.000E+00
+ 
+   PLASTICITY LOGGING SUMMARY
+   GROUP NAME          PLAST, PRV. PL, CRITIC, PLAST NEW, PRV.PL NEW, CRITIC NEW
+   TOTAL MODEL             0        0       0          0           0           0
+   CRACKING LOGGING SUMMARY
+   GROUP NAME               CRACK,     OPEN,   CLOSED,   ACTIVE,   INACTI,   ARISES, RE-OPENS,   CLOSES
+   TOTAL MODEL                  0         0         0         0         0         0         0         0
+     CUMULATIVE REACTION:         FORCE X        FORCE Y
+                                0.11413E-07    -0.10000E+05
+  
+ 
+  STEP      5 INITIATED:
+   LOAD INCREMENT:  LOADING( 1) *   2.500E-01
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.41E-11 (INIT. RES= 0.25E+04) NI=    1
+ 
+  STEP      5 : DISPLACEMENT NORM =  3.541E-03         TOLERANCE =  1.000E-02
+  STEP      5 :       FORCE  NORM =  1.531E+04         TOLERANCE =  1.000E-02
+ 
+  RELATIVE      OUT OF BALANCE FORCE   =  7.909E-13          CHECK = TRUE
+ 
+  STEP      5 TERMINATED, CONVERGENCE AFTER   0 ITERATIONS
+   TOTAL LOAD FACTOR:  LOADING( 1) *   1.250E+00
+ 
+   PLASTICITY LOGGING SUMMARY
+   GROUP NAME          PLAST, PRV. PL, CRITIC, PLAST NEW, PRV.PL NEW, CRITIC NEW
+   TOTAL MODEL             0        0       0          0           0           0
+   CRACKING LOGGING SUMMARY
+   GROUP NAME               CRACK,     OPEN,   CLOSED,   ACTIVE,   INACTI,   ARISES, RE-OPENS,   CLOSES
+   TOTAL MODEL                  0         0         0         0         0         0         0         0
+     CUMULATIVE REACTION:         FORCE X        FORCE Y
+                                0.55664E-08    -0.12500E+05
+  
+ 
+  STEP      6 INITIATED:
+   LOAD INCREMENT:  LOADING( 1) *   2.500E-01
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.41E-11 (INIT. RES= 0.25E+04) NI=    1
+ 
+  STEP      6 : DISPLACEMENT NORM =  3.541E-03         TOLERANCE =  1.000E-02
+  STEP      6 :       FORCE  NORM =  1.838E+04         TOLERANCE =  1.000E-02
+ 
+  RELATIVE      OUT OF BALANCE FORCE   =  2.641E-02          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.11E-12 (INIT. RES= 0.49E+03) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  5.337E-03          CHECK = TRUE
+  RELATIVE      OUT OF BALANCE FORCE   =  1.840E-02          CHECK = FALSE
+ 
+  STEP      6 TERMINATED, CONVERGENCE AFTER   1 ITERATION
+   TOTAL LOAD FACTOR:  LOADING( 1) *   1.500E+00
+ 
+   PLASTICITY LOGGING SUMMARY
+   GROUP NAME          PLAST, PRV. PL, CRITIC, PLAST NEW, PRV.PL NEW, CRITIC NEW
+   TOTAL MODEL             0        0       0          0           0           0
+   CRACKING LOGGING SUMMARY
+   GROUP NAME               CRACK,     OPEN,   CLOSED,   ACTIVE,   INACTI,   ARISES, RE-OPENS,   CLOSES
+   TOTAL MODEL                 10        10         0        10         0        10         0         0
+     CUMULATIVE REACTION:         FORCE X        FORCE Y
+                                0.42121E-10    -0.15000E+05
+  
+ 
+  STEP      7 INITIATED:
+   LOAD INCREMENT:  LOADING( 1) *   2.500E-01
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.40E-11 (INIT. RES= 0.25E+04) NI=    1
+ 
+  STEP      7 : DISPLACEMENT NORM =  3.552E-03         TOLERANCE =  1.000E-02
+  STEP      7 :       FORCE  NORM =  2.170E+04         TOLERANCE =  1.000E-02
+ 
+  RELATIVE      OUT OF BALANCE FORCE   =  1.565E-01          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.20E-12 (INIT. RES= 0.34E+04) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  6.510E-02          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  6.039E-02          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.21E-12 (INIT. RES= 0.13E+04) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  2.564E-02          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  3.353E-02          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.16E-12 (INIT. RES= 0.73E+03) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  1.108E-02          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  2.178E-02          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.11E-12 (INIT. RES= 0.47E+03) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  4.948E-03          CHECK = TRUE
+  RELATIVE      OUT OF BALANCE FORCE   =  1.563E-02          CHECK = FALSE
+ 
+  STEP      7 TERMINATED, CONVERGENCE AFTER   4 ITERATIONS
+   TOTAL LOAD FACTOR:  LOADING( 1) *   1.750E+00
+ 
+   PLASTICITY LOGGING SUMMARY
+   GROUP NAME          PLAST, PRV. PL, CRITIC, PLAST NEW, PRV.PL NEW, CRITIC NEW
+   TOTAL MODEL             0        0       0          0           0           0
+   CRACKING LOGGING SUMMARY
+   GROUP NAME               CRACK,     OPEN,   CLOSED,   ACTIVE,   INACTI,   ARISES, RE-OPENS,   CLOSES
+   TOTAL MODEL                 46        46         0        46         0        36         0         0
+     CUMULATIVE REACTION:         FORCE X        FORCE Y
+                                0.87539E-11    -0.17500E+05
+  
+ 
+  STEP      8 INITIATED:
+   LOAD INCREMENT:  LOADING( 1) *   2.500E-01
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.41E-11 (INIT. RES= 0.25E+04) NI=    1
+ 
+  STEP      8 : DISPLACEMENT NORM =  3.608E-03         TOLERANCE =  1.000E-02
+  STEP      8 :       FORCE  NORM =  2.498E+04         TOLERANCE =  1.000E-02
+ 
+  RELATIVE      OUT OF BALANCE FORCE   =  1.965E-01          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.36E-12 (INIT. RES= 0.49E+04) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  1.640E-01          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  1.125E-01          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.33E-12 (INIT. RES= 0.28E+04) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  8.845E-02          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  7.867E-02          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.29E-12 (INIT. RES= 0.20E+04) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  5.374E-02          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  5.689E-02          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.27E-12 (INIT. RES= 0.14E+04) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  3.574E-02          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  5.062E-02          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.22E-12 (INIT. RES= 0.13E+04) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  2.501E-02          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  4.718E-02          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.16E-12 (INIT. RES= 0.12E+04) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  1.803E-02          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  4.565E-02          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.13E-12 (INIT. RES= 0.11E+04) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  1.319E-02          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  4.632E-02          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.92E-13 (INIT. RES= 0.12E+04) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  1.015E-02          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  5.039E-02          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.73E-13 (INIT. RES= 0.13E+04) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  8.455E-03          CHECK = TRUE
+  RELATIVE      OUT OF BALANCE FORCE   =  5.447E-02          CHECK = FALSE
+ 
+  STEP      8 TERMINATED, CONVERGENCE AFTER   9 ITERATIONS
+   TOTAL LOAD FACTOR:  LOADING( 1) *   2.000E+00
+ 
+   PLASTICITY LOGGING SUMMARY
+   GROUP NAME          PLAST, PRV. PL, CRITIC, PLAST NEW, PRV.PL NEW, CRITIC NEW
+   TOTAL MODEL             0        0       0          0           0           0
+   CRACKING LOGGING SUMMARY
+   GROUP NAME               CRACK,     OPEN,   CLOSED,   ACTIVE,   INACTI,   ARISES, RE-OPENS,   CLOSES
+   TOTAL MODEL                106       106         0       106         0        60         0         0
+     CUMULATIVE REACTION:         FORCE X        FORCE Y
+                               -0.34902E-10    -0.20000E+05
+  
+ 
+  STEP      9 INITIATED:
+   LOAD INCREMENT:  LOADING( 1) *   2.500E-01
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.40E-11 (INIT. RES= 0.28E+04) NI=    1
+ 
+  STEP      9 : DISPLACEMENT NORM =  3.818E-03         TOLERANCE =  1.000E-02
+  STEP      9 :       FORCE  NORM =  2.831E+04         TOLERANCE =  1.000E-02
+ 
+  RELATIVE      OUT OF BALANCE FORCE   =  2.285E-01          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.48E-12 (INIT. RES= 0.65E+04) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  2.825E-01          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  1.827E-01          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.45E-12 (INIT. RES= 0.52E+04) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  2.036E-01          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  1.783E-01          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.37E-12 (INIT. RES= 0.50E+04) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  1.649E-01          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  1.974E-01          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.30E-12 (INIT. RES= 0.56E+04) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  1.469E-01          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  2.327E-01          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.26E-12 (INIT. RES= 0.66E+04) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  1.420E-01          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  2.937E-01          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.21E-12 (INIT. RES= 0.83E+04) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  1.549E-01          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  3.666E-01          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.22E-12 (INIT. RES= 0.10E+05) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  1.926E-01          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  4.941E-01          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.21E-12 (INIT. RES= 0.14E+05) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  2.643E-01          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  7.311E-01          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.24E-12 (INIT. RES= 0.21E+05) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  4.293E-01          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  1.111E+00          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.32E-12 (INIT. RES= 0.31E+05) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  8.428E-01          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  1.505E+00          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.51E-12 (INIT. RES= 0.43E+05) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  1.932E+00          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  2.165E+00          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.11E-11 (INIT. RES= 0.61E+05) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  5.525E+00          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  2.597E+00          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.25E-11 (INIT. RES= 0.74E+05) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  1.575E+01          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  3.964E+00          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.69E-11 (INIT. RES= 0.11E+06) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  6.567E+01          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  7.245E+00          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.20E-10 (INIT. RES= 0.21E+06) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  3.730E+02          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  3.033E+01          CHECK = FALSE
+ 
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.71E-09 (INIT. RES= 0.86E+06) NI=    1
+ 
+  RELATIVE      DISPLACEMENT VARIATION =  5.506E+04          CHECK = FALSE
+  RELATIVE      OUT OF BALANCE FORCE   =  7.295E+04          CHECK = FALSE
+ 
+  STEP      9 TERMINATED
+   TOTAL LOAD FACTOR:  LOADING( 1) *   2.250E+00
+ 
+ SEVERITY  : FATAL
+ ERROR CODE: /DIANA/AP/LB40/0053
+ ERRORMSG.F: Divergence occurred, iteration method failed.
+ Use smaller load steps, different iteration procedure or different
+ control procedure. Restart from a saved FILOS file or rerun the
+ complete job.
+
+   PLASTICITY LOGGING SUMMARY
+   GROUP NAME          PLAST, PRV. PL, CRITIC, PLAST NEW, PRV.PL NEW, CRITIC NEW
+   TOTAL MODEL             0        0       0          0           0           0
+   CRACKING LOGGING SUMMARY
+   GROUP NAME               CRACK,     OPEN,   CLOSED,   ACTIVE,   INACTI,   ARISES, RE-OPENS,   CLOSES
+   TOTAL MODEL                670       600        70       592        78       564         0        70
+     CUMULATIVE REACTION:         FORCE X        FORCE Y
+                                0.38333E-03    -0.22500E+05
+  
+     CONVERGENCE CRITERION WAS NOT REACHED.
+     EXECUTION IS STOPPED, BUT CAN BE CONTINUED
+ SEVERITY  : ABORT
+ ERROR CODE: /DIANA/LB/ER50/0098
+ ERRORMSG.A: 1 fatal error messages occurred during previous analysis.
+ Can't continue.
+ DIANA-JOB ABORTED

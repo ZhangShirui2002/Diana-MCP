@@ -1,0 +1,32 @@
+{
+  "mcpServers": {
+    "diana": {
+      "type": "stdio",
+      "command": "ssh",
+      "args": [
+        "-i",
+        "C:\\path\\to\\your_ssh_private_key",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "IdentitiesOnly=yes",
+        "-o",
+        "ServerAliveInterval=30",
+        "-o",
+        "ServerAliveCountMax=6",
+        "user@diana-compute-host",
+        "WINEPREFIX=/path/to/wine-prefix DISPLAY=:0 DIANA_MCP_WORKDIR=/path/to/jobs DIANA_MCP_PROFILE=compute DIANA_MCP_DISABLE_RETRIEVERS=1 exec /path/to/diana-mcp/.venv/bin/python -m diana_mcp"
+      ]
+    },
+    "diana-knowledge": {
+      "type": "stdio",
+      "command": "C:\\path\\to\\diana-mcp\\.venv\\Scripts\\python.exe",
+      "args": ["-m", "diana_mcp"],
+      "env": {
+        "DIANA_MCP_PROFILE": "knowledge",
+        "DIANA_MCP_VECTOR_DEVICE": "cuda",
+        "DIANA_MCP_SSH_OPTIONS": "-i \"C:\\path\\to\\your_ssh_private_key\" -o IdentitiesOnly=yes"
+      }
+    }
+  }
+}

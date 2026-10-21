@@ -1,0 +1,49 @@
+ Analysis type         NONLIN
+ Step nr.              8     
+ Load factor           2.000E+00 
+ Result                STATUS CRACK        
+ Location of results   INTPNT
+  
+ Elmnr Intpt                            
+     1     1   NO CRACK YET             
+           2   NO CRACK YET             
+           3   NO CRACK YET             
+           4   NO CRACK YET             
+     2     1   NO CRACK YET             
+           2   PARTIALLY OPEN LOADING   
+           3   NO CRACK YET             
+           4   PARTIALLY OPEN LOADING   
+   241     1   NO CRACK YET             
+           2   PARTIALLY OPEN LOADING   
+           3   NO CRACK YET             
+  
+  
+ Analysis type         NONLIN
+ Step nr.              8     
+ Load factor           2.000E+00 
+ Result                STRAIN CRACK  GREEN 
+ Location of results   INTPNT
+  
+ Elmnr Intpt       Eknn       Gknt  
+   240     2    2.619E-06  1.059E-22
+           4    7.705E-06 -1.059E-22
+   248     2    9.578E-06  2.118E-22
+           4    1.208E-05 -1.059E-22
+   256     2    1.378E-05  1.059E-22
+  
+  
+ Analysis type         NONLIN
+ Step nr.              8     
+ Load factor           2.000E+00 
+ Result                STATUS TOTCRK       
+ Location of results   INTPNT
+  
+ Elmnr Intpt      ALPten     ALPcom 
+     1     1    7.772E-08  0.000E+00
+           2    0.000E+00 -1.890E-07
+           3    0.000E+00 -1.870E-07
+           4    8.733E-08 -1.176E-06
+     2     1    1.116E-07 -6.734E-07
+  
+  
+  

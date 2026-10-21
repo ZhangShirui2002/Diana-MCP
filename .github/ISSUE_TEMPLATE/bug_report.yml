@@ -1,0 +1,65 @@
+name: Bug report
+description: 报告可复现的 DIANA-MCP 问题（请勿上传机密模型或许可证信息）
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈。公开 Issue 不能包含客户模型、许可证、bridge token、私钥、内网地址或未经脱敏的日志。安全漏洞请按 SECURITY.md 私下报告。
+  - type: input
+    id: version
+    attributes:
+      label: DIANA-MCP 版本
+      placeholder: 例如 0.9.0
+    validations:
+      required: true
+  - type: input
+    id: diana
+    attributes:
+      label: DIANA 版本
+      placeholder: 例如 10.5
+    validations:
+      required: true
+  - type: dropdown
+    id: profile
+    attributes:
+      label: Profile
+      options: [full, compute, knowledge, 不确定]
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: 操作系统和 Python
+      placeholder: Windows 11, Python 3.12
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      description: 请给出最小、可公开的步骤，不要上传真实工程。
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望行为
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际行为和已脱敏日志
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 隐私确认
+      options:
+        - label: 我已删除客户数据、绝对工程路径、用户名、主机/IP、令牌、私钥和许可证信息。
+          required: true
+        - label: 这不是需要私密披露的安全漏洞。
+          required: true

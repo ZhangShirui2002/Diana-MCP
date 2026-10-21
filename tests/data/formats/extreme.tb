@@ -1,0 +1,45 @@
+ Analysis type         LINSTA
+ Result                DISPLA TOTAL  TRANSL
+ Axes                  GLOBAL
+  
+ Extreme values        DtX     6.115E-06   Loadcasenr     2   Nodnr     3
+                       DtY    -4.361E-04   Loadcasenr     1   Nodnr     3
+                      
+ Nodnr            DtX                 DtY       
+     3    6.115E-06 (2)      -4.361E-04 (1)     
+     6    9.260E-06 (2)      -4.321E-04 (1)     
+  
+  
+ Analysis type         LINSTA
+ Result                STRESS TOTAL  CAUCHY
+ Axes                  GLOBAL
+ Location of results   NODES 
+  
+ Element type  CQ16M
+ Extreme values        SXX    -1.364E+04   Loadcasenr     1   Elmnr     1   Nodnr   177
+                       SYY    -4.355E+04   Loadcasenr     1   Elmnr     2   Nodnr   178
+                       SZZ     0.000E+00   Loadcasenr     1   Elmnr     1   Nodnr     2
+                       SXY    -2.086E+03   Loadcasenr     1   Elmnr     1   Nodnr    92
+                       SYZ     0.000E+00   Loadcasenr     1   Elmnr     1   Nodnr     2
+                       SZX     0.000E+00   Loadcasenr     1   Elmnr     1   Nodnr     2
+                      
+ Elmnr Nodnr            SXX                 SYY                 SZZ                 SXY       
+     1     2   -1.409E-06 (2)      -1.377E-06 (2)       0.000E+00 (1)      -8.376E+02 (1)     
+         857   -1.015E-06 (2)      -9.988E-07 (2)       0.000E+00 (1)      -1.462E+03 (1)     
+          92   -6.209E-07 (2)      -6.202E-07 (2)       0.000E+00 (1)      -2.086E+03 (1)     
+         906   -6.623E+03 (1)      -6.375E+03 (1)       0.000E+00 (1)      -5.628E-06 (2)     
+         177   -1.364E+04 (1)      -1.344E+04 (1)       0.000E+00 (1)      -1.293E-05 (2)     
+         907   -6.439E+03 (1)      -6.566E+03 (1)       0.000E+00 (1)      -5.561E-06 (2)     
+         137   -6.317E-07 (2)      -7.760E-07 (2)       0.000E+00 (1)      -2.043E+03 (1)     
+         810   -1.020E-06 (2)      -1.077E-06 (2)       0.000E+00 (1)      -1.440E+03 (1)     
+     2   137   -2.128E-06 (2)      -1.817E-06 (2)       0.000E+00 (1)      -4.515E+02 (1)     
+         907   -4.952E+03 (1)      -6.427E+03 (1)       0.000E+00 (1)      -7.155E-06 (2)     
+         177   -1.253E+04 (1)      -1.517E+04 (1)       0.000E+00 (1)      -1.478E-05 (2)     
+         908   -1.157E+04 (1)      -2.936E+04 (1)       0.000E+00 (1)      -2.116E-05 (2)     
+         178   -1.061E+04 (1)      -4.355E+04 (1)       0.000E+00 (1)      -2.754E-05 (2)     
+         909   -4.475E+03 (1)      -3.600E+04 (1)       0.000E+00 (1)      -1.409E-05 (2)     
+         136   -1.748E-07 (2)      -2.846E+04 (1)       0.000E+00 (1)      -6.288E-07 (2)     
+         811   -1.151E-06 (2)      -1.307E+04 (1)       0.000E+00 (1)      -7.939E-08 (2)     
+  
+  
+  

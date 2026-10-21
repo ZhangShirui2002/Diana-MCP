@@ -1,0 +1,68 @@
+     1:*FILOS
+     2:INITIA
+ FILOS FILE INITIALIZED
+ DI= 150   BF= 4096  16384   65536   262144   1048576
+     3:*INPUT
+ /DIANA/DC/ST33    16:33:53      0.06-CPU     0.20-IO        7-FA   BEGIN 
+     4:*LINSTA LABEL="Structural linear static"
+     5:  SOLVE PARDIS
+     6:  BEGIN OUTPUT
+     7:    TEXT 输出线性静力分析
+     8:    BINARY
+     9:    SELECT LOADS ALL /
+    10:  END OUTPUT
+    11:  BEGIN OUTPUT
+    12:    TEXT "输出线性静力分析 2"
+    13:    TABULA
+    14:    LAYOUT
+    15:    SELECT LOADS ALL /
+    16:    DISPLA TOTAL TRANSL GLOBAL X Y Z
+    17:    STRESS TOTAL CAUCHY GLOBAL XX YY ZZ XY YZ ZX
+    18:    FORCE REACTI TRANSL GLOBAL X Y Z
+    19:  END OUTPUT
+    20:*END
+0
+              $$$$$$$    $$$$$$$$     $$     $$$     $$     $$
+              $$$$$$$$$  $$$$$$$$     $$     $$$$    $$     $$
+              $$     $$     $$       $$$$    $$$$    $$    $$$$
+              $$      $$    $$       $$$$    $$ $$   $$    $$$$
+              $$      $$    $$      $$  $$   $$ $$$  $$   $$  $$
+              $$      $$    $$      $$  $$   $$  $$$ $$   $$  $$
+              $$      $$    $$     $$$$$$$$  $$   $$ $$  $$$$$$$$
+              $$     $$     $$     $$$$$$$$  $$    $$$$  $$$$$$$$
+              $$$$$$$$$  $$$$$$$$ $$      $$ $$    $$$$ $$      $$
+              $$$$$$$    $$$$$$$$ $$      $$ $$     $$$ $$      $$
+
+
+
+ ****************************************************************************************
+ ****************************************************************************************
+ ***                                                                                  ***
+ *** : Diana Datafile written by Diana 10.5                                           ***
+ ***                                                                                  ***
+ ****************************************************************************************
+ ****************************************************************************************
+ *** DIANA RELEASE 10.5  LATEST UPDATE: 2021-05-01 07:33:44                           ***
+ ****************************************************************************************
+1
+ /DIANA/AP/IN51    16:33:59      0.52-CPU     0.47-IO       92-FA   BEGIN 
+ /DIANA/AP/LS41    16:34:00      1.28-CPU     0.84-IO      120-FA   BEGIN 
+     ELEM. STIFFNESS STORED.
+     RHS-VECTORS INITIALIZED: ML=     1 ND=    4194 SF.RHSIDE
+     EXTER. LOAD INITIALIZED: ML=     1 ND=    4194 SF.EXTLOD
+     CONST.DISP. INITIALIZED: ML=     1 ND=    4194 SF.DISCON
+     NODAL LOADS TO RHS-VECT: NV=     1 NL=     1 SF.RHSIDE
+     NODAL LOADS TO EXT.LOAD: NV=     1 NL=     1 SF.EXTLOD
+  
+     SUM OF EXT.LOAD TO CALC: ML=     1 ND=    4194 SF.EXTLOD
+  
+ SUM OF EXTERNAL LOADS:
+ ======================
+ LOADSET POSITION  TR  X       TR  Y       TR  Z       RO  X       RO  Y       RO  Z
+       1           0.0000E+00 -0.1000E+05  0.0000E+00  0.0000E+00  0.0000E+00 -0.2000E+05
+      SPARSE: DIM=4191 NNZ(MAT)=63620
+      SOLVE: REDUCTION RES= 0.40E-11 (INIT. RES= 0.10E+05) NI=    1
+      TABULA file ss_beam.tb opened
+ /DIANA/AP/LS41    16:34:03      4.81-CPU     3.03-IO      420-FA   LINSTA
+ /DIANA/DC/END     16:34:03      4.81-CPU     3.03-IO      420-FA   STOP  
+ Elapsed time: 10 seconds

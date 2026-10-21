@@ -1,0 +1,10 @@
+﻿# Files DIANA generates when the examples are run
+*.dpf
+*_jobs/
+*.dat
+*.dcf
+*.dnb
+*.out
+*.tb
+*.ff
+*.log

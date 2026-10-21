@@ -1,0 +1,39 @@
+.venv/
+__pycache__/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+
+# Local MCP/client configuration (may contain host names, user names and SSH key paths)
+.mcp.json
+.codex/
+
+# Local development, test and deployment artifacts
+.scratch/
+.add-staging/
+.pytest-*/
+.coverage
+htmlcov/
+
+# User-owned knowledge, downloaded embedding models and generated handbooks
+# The knowledge folder is intentionally its own private Git repository. Publish a reviewed copy separately.
+knowledge/
+models/
+
+# Local DIANA projects and generated solver output under examples
+examples/**/*.dpf
+examples/**/*_jobs/
+examples/**/*.dat
+examples/**/*.dcf
+examples/**/*.dnb
+examples/**/*.dna
+examples/**/*.out
+examples/**/*.tb
+examples/**/*.ff
+examples/**/*.log
+
+# Unrelated/private research notes kept in this working copy
+docs/revit-mcp-research-*.md
+docs/sky-001-vs-revit-mcp-*.md
+docs/civil-revit-deep-research-*.md

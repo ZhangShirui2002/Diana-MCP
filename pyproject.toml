@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "diana-mcp"
+version = "0.9.0"
+description = "MCP server that lets AI assistants drive a live DIANA FEA (DianaIE) session"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE.md"]
+keywords = ["MCP", "DIANA", "finite element analysis", "DianaIE"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: Microsoft :: Windows",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = ["mcp>=2.2,<3"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+# Semantic retrieval: numpy for the index, sentence-transformers (PyTorch) for the model. For a GPU install the CUDA
+# build of torch first: pip install torch --index-url https://download.pytorch.org/whl/cu128
+vector = ["numpy>=1.26", "sentence-transformers>=3"]
+
+[project.scripts]
+diana-mcp = "diana_mcp.server:main"
+
+[project.entry-points."diana_mcp.retrievers"]
+vector = "diana_mcp.vector:factory"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["live: drives the real local DIANA installation (run with DIANA_MCP_LIVE_TESTS=1)"]
