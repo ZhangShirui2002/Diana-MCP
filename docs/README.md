@@ -13,6 +13,7 @@
 - [工具参考](zh/tools.md)：MCP 工具的用途、权限和使用条件。
 - [架构说明](zh/architecture.md)：GUI 桥接、后台求解、审阅门禁和知识库的关系。
 - [安全与隐私](zh/security-and-privacy.md)：令牌、模型文件、工程数据和发布前脱敏。
+- [社区知识网络](zh/community-knowledge.md)：可选共享经验库、自动治理与本地隐私层。
 - [DIANA 用户手册审计](manual-audit.md)：TABULA、结果读取及功能覆盖审查。
 
 ## 维护和发布

@@ -52,7 +52,12 @@ The detailed documentation is currently maintained in Chinese:
 - [Tool reference](docs/zh/tools.md)
 - [Architecture](docs/zh/architecture.md)
 - [Security and privacy](docs/zh/security-and-privacy.md)
+- [Community knowledge network](docs/zh/community-knowledge.md)
 - [Publishing runbook](docs/zh/publishing.md)
+
+## Optional community knowledge network
+
+The planned community layer combines locally indexed DIANA documentation, an opt-in shared experience repository, and each user's private handbook. Contributions pass automated schema, license, redaction, security, duplication, and conflict checks, but enter only as unverified drafts. Local experience is never uploaded without an explicit, reviewable user decision. See the [community knowledge design](docs/zh/community-knowledge.md).
 
 ## Development
 
