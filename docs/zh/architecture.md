@@ -101,6 +101,7 @@ stateDiagram-v2
 - DianaIE API 索引；
 - 中英文术语表；
 - 用户经验条目；
+- 显式同步、保留 Git commit 和可信度的社区经验（可选）；
 - 可选语义向量检索。
 
 经验库使用 Markdown + YAML front matter，并拥有独立 Git 历史。自动学习只生成 `draft`；可执行验证只记录检查结果；`verified` 必须由人明确批准。

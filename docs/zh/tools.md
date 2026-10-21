@@ -1,6 +1,6 @@
 # 工具参考
 
-当前版本在 `full` profile 下提供 41 个工具。工具描述和参数模式以 MCP 的 `tools/list` 返回为最终依据；本页用于快速定位。
+当前版本在 `full` profile 下提供 46 个工具。工具描述和参数模式以 MCP 的 `tools/list` 返回为最终依据；本页用于快速定位。
 
 ## 会话、模型与追踪（13）
 
@@ -78,6 +78,18 @@
 
 自动验证通过只会写入检查记录，不会自动把草稿改成“已验证”。只有用户明确批准并留下审批说明，才能改变该状态。
 
+## 社区知识网络（5）
+
+| 工具 | 类型 | 用途 |
+|---|---|---|
+| `diana_community_status` | 只读 | 查看缓存 commit、可信度统计和可脱敏的本地候选；不联网 |
+| `diana_community_sync` | 网络/本地写入 | 显式克隆或更新公共社区仓库 |
+| `diana_community_prepare` | 本地写入 | 生成独立的脱敏候选批次，不上传、不修改私有经验 |
+| `diana_community_preview` | 只读 | 显示完整公开候选、替换统计和语义泄露提醒 |
+| `diana_community_contribute` | 公开外部写入 | 仅在确认短语等于 `UPLOAD <batch-id>` 时推送贡献分支 |
+
+社区同步和贡献都不是后台隐式操作。社区条目保留仓库、commit、状态和可信度；`candidate` 只能作为线索，不能冒充本地已验证经验。
+
 ## Profile 与工具归属
 
-`knowledge` profile 包含本页“知识与文档”和“经验库与融合检索”的 16 个工具。其余 25 个属于 `compute` profile。`full` 同时注册两组。
+`knowledge` profile 包含本页“知识与文档”“经验库与融合检索”和“社区知识网络”的 21 个工具。其余 25 个属于 `compute` profile。`full` 同时注册两组。

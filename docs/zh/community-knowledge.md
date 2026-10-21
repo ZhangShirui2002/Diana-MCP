@@ -1,6 +1,6 @@
 # 社区知识网络
 
-> 状态：架构提案，尚未在当前 v0.9.0 中启用。现有本地经验库和检索功能不依赖社区网络。
+> 状态：v0.10.0 已实现可选同步、分层检索、脱敏预览、显式贡献门禁和社区仓库自动治理。现有本地经验库和检索功能仍不依赖社区网络。
 
 ## 目标
 
@@ -28,9 +28,9 @@ flowchart TB
     Search --> Agent
 ```
 
-`KnowledgeSource` 是知识来源 seam。现有本地经验和未来社区 Git 仓库分别通过 Adapter 接入；建模和检索模块只理解统一文档、来源、状态、适用版本和可信度，不需要理解 GitHub、同步或脱敏实现。
+统一的 `Document` / `Retriever` 接口是知识来源 seam。本地 `ExperienceStore` 与社区 `CommunityStore` 分别通过 Adapter 接入；建模和检索模块只理解统一文档、来源、状态、适用版本和可信度，不需要理解 GitHub、同步或脱敏实现。
 
-建议把社区内容放在独立仓库 `ZhangShirui2002/Diana-MCP-Knowledge`，主仓库只保存同步、验证和检索代码。独立仓库便于高频更新知识，而不要求为每次经验修订发布新的 MCP 版本。
+社区内容位于独立仓库 [`ZhangShirui2002/Diana-MCP-Knowledge`](https://github.com/ZhangShirui2002/Diana-MCP-Knowledge)，主仓库只保存同步、验证和检索代码。独立仓库便于高频更新知识，而不要求为每次经验修订发布新的 MCP 版本。
 
 ## 自动维护模型
 
@@ -97,17 +97,17 @@ verification:
 
 ## 本地经验贡献流程
 
-本地经验永不自动上传。推荐界面：
+本地经验永不自动上传。命令行界面：
 
 ```text
-knowledge community redact <id>
+knowledge community redact <id> [<id> ...]
 knowledge community preview <id>
 knowledge community contribute <id>
 knowledge community status
 knowledge community sync
 ```
 
-`redact` 在临时 staging 目录生成候选副本，不修改原经验；`preview` 返回逐项差异和风险；只有用户明确确认后，`contribute` 才创建分支或 Pull Request。
+`redact` 在独立 staging 目录生成候选副本，不修改原经验；`preview` 返回完整候选和风险；只有用户在看完预览后逐字输入 `UPLOAD <batch-id>`，`contribute` 才创建并推送公开分支。公开 commit 使用 GitHub noreply 邮箱并带 DCO `Signed-off-by`，避免泄露本机 Git 邮箱。
 
 自动脱敏至少处理：
 
@@ -123,13 +123,13 @@ knowledge community sync
 
 ## 社区同步
 
-社区同步应由用户选择开启，默认关闭。建议规则：
+社区同步由用户显式执行，默认不联网。当前规则：
 
 - 只下载 Markdown、schema 和声明式验证，不下载任意可执行文件；
-- 固定到已签名 tag 或明确 commit，并校验内容哈希；
+- 每次结果记录明确 Git commit；更新采用 Git 获取和分离检出，并拒绝覆盖脏缓存；
 - 保留来源仓库、commit、贡献者和证据链；
 - 本地经验与社区经验使用不同目录，不互相覆盖；
-- 同步后仅增量更新本地 bge-m3 索引；
+- 同步后仅增量更新本地 bge-m3 社区条目；
 - 本地已验证经验优先于社区经验；
 - 版本不匹配或结论冲突时同时展示并要求人工判断。
 

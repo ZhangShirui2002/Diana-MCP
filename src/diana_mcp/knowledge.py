@@ -29,12 +29,14 @@ from typing import Any, Callable, Iterable, Iterator, Protocol
 from . import config
 from . import usage as usage_module
 from .api_reference import ApiReference, ApiReferenceStore
+from .community import CommunityStore
 from .experience import STATUSES, TYPES, ExperienceStore
 from .glossary import Glossary
 from .manual import _HEADING, ManualStore
 from .textindex import has_cjk
 
-SOURCE_ZH = {"experience": "经验", "manual": "手册", "example": "算例", "keyword": "关键字", "api": "API"}
+SOURCE_ZH = {"experience": "经验", "community": "社区经验", "manual": "手册", "example": "算例",
+             "keyword": "关键字", "api": "API"}
 RRF_K = 10  # small: the top hits of every source interleave near the top instead of one source filling the list
 STATUS_BOOST = {"verified": 1.3, "draft": 1.0, "disputed": 0.6, "obsolete": 0.3}
 SOURCE_FACTOR = {"example": 0.6}  # .dcf examples repeat keywords densely; prefer the manual's explanations
@@ -103,6 +105,7 @@ class Context:
     glossary: Glossary | None = None
     api_store: ApiReferenceStore | None = None
     log_dir: Path | None = None  # where search, feedback and recommendation logs live
+    community: CommunityStore | None = None
 
     def usage(self) -> dict[str, usage_module.Usage]:
         """Usage statistics per experience id (see usage.py)."""
@@ -172,6 +175,74 @@ class ExperienceRetriever:
         return hits
 
 
+class CommunityRetriever(ExperienceRetriever):
+    """Adapter that keeps public provenance/trust distinct from the user's private experience handbook."""
+
+    name, weight = "community", 1.05
+    TRUST = {
+        "candidate": 0.45,
+        "community-confirmed": 0.85,
+        "reproducibly-verified": 1.15,
+        "disputed": 0.2,
+        "obsolete": 0.05,
+    }
+    LOCAL_STATUS = {
+        "candidate": "draft",
+        "community-confirmed": "verified",
+        "reproducibly-verified": "verified",
+        "disputed": "disputed",
+        "obsolete": "obsolete",
+    }
+
+    def __init__(self, store: CommunityStore):
+        self.store = store
+        self.usage = None
+
+    def search(self, query: Query, limit: int) -> list[Hit]:
+        entries = self.store.entries()
+        bm25, by_id = ExperienceStore(self.store.root, use_git=False).index(entries)
+        scores: dict[str, float] = {}
+        texts = list(dict.fromkeys(t for t in (query.text, query.english) if t))
+        for text in texts:
+            for entry_id, score in bm25.search(text, limit * 3):
+                scores[entry_id] = scores.get(entry_id, 0.0) + score
+        needed = {t: self.MIN_COVERAGE_CJK if has_cjk(t) else self.MIN_COVERAGE for t in texts}
+        scores = {i: s for i, s in scores.items() if any(bm25.coverage(i, t) >= needed[t] for t in texts)}
+        adjusted = []
+        factors: dict[str, float] = {}
+        for entry_id, score in scores.items():
+            entry = by_id[entry_id]
+            community_status = str(entry.extra.get("community_status", "candidate"))
+            confidence = float(entry.extra.get("confidence", 0.0))
+            factor = self.TRUST.get(community_status, 0.2) * (0.75 + 0.5 * confidence)
+            factors[entry_id] = factor
+            adjusted.append((entry_id, score * factor))
+        top = max((score for _, score in adjusted), default=0.0)
+        hits = []
+        labels = {
+            "candidate": "候选（未验证）", "community-confirmed": "社区确认",
+            "reproducibly-verified": "可重复验证", "disputed": "有争议", "obsolete": "已过时",
+        }
+        commit = self.store.status().get("commit")
+        for entry_id, score in sorted(adjusted, key=lambda pair: -pair[1])[:limit]:
+            if score < self.MIN_RELATIVE * top:
+                break
+            entry = by_id[entry_id]
+            status = str(entry.extra.get("community_status", "candidate"))
+            words = [t for t, _ in query.terms] + query.text.split()
+            hits.append(Hit("community", entry.id, entry.title, _snippet(entry.body, words), score, {
+                "community_status": status,
+                "status": labels.get(status, status),
+                "status_key": self.LOCAL_STATUS.get(status, "draft"),
+                "confidence": float(entry.extra.get("confidence", 0.0)),
+                "type": TYPES[entry.type],
+                "repository": self.store.url,
+                "commit": commit,
+                "trust_factor": round(factors[entry_id], 3),
+            }))
+        return hits
+
+
 class ManualRetriever:
     name, weight = "manual", 1.0
 
@@ -230,6 +301,7 @@ class ApiRetriever:
 
 _FACTORIES: list[Callable[[Context], Any]] = [
     lambda c: ExperienceRetriever(c.experiences, c.usage),
+    lambda c: CommunityRetriever(c.community) if c.community is not None and c.community.ready else None,
     ManualRetriever,
     KeywordRetriever,
     ApiRetriever,
@@ -279,7 +351,8 @@ def fuse(results: list[tuple[Any, list[Hit]]], limit: int) -> list[Hit]:
                 continue
             seen.add(hit.key)
             rank = ranks[hit.source] = ranks.get(hit.source, 0) + 1
-            boost = STATUS_BOOST.get(hit.meta.get("status_key", ""), 1.0) * SOURCE_FACTOR.get(hit.source, 1.0)
+            boost = (STATUS_BOOST.get(hit.meta.get("status_key", ""), 1.0) *
+                     SOURCE_FACTOR.get(hit.source, 1.0) * float(hit.meta.get("trust_factor", 1.0)))
             scores[hit.key] = scores.get(hit.key, 0.0) + getattr(retriever, "weight", 1.0) * boost / (RRF_K + rank)
             best.setdefault(hit.key, hit)
     ranked = sorted(scores, key=lambda k: -scores[k])[:limit]
@@ -323,12 +396,20 @@ def _optional(load: Callable[[], Any]) -> Any:
 
 
 def iter_documents(context: Context, sources: Iterable[str] | None = None) -> Iterator[Document]:
-    wanted = set(sources) if sources else {"experience", "manual", "example", "keyword", "api"}
+    wanted = set(sources) if sources else {"experience", "community", "manual", "example", "keyword", "api"}
     if "experience" in wanted:
         for entry in context.experiences.entries():
             yield Document(f"experience:{entry.id}", "experience", entry.id, entry.title,
                            "\n".join([entry.title, " ".join(entry.triggers), " ".join(entry.tags), entry.body]),
                            lang="zh", meta={"status": entry.status, "type": entry.type})
+    if "community" in wanted and context.community is not None and context.community.ready:
+        commit = context.community.status().get("commit")
+        for entry in context.community.entries():
+            status = str(entry.extra.get("community_status", "candidate"))
+            yield Document(f"community:{entry.id}", "community", entry.id, entry.title,
+                           "\n".join([entry.title, " ".join(entry.triggers), " ".join(entry.tags), entry.body]),
+                           lang="zh", meta={"community_status": status, "confidence": entry.extra.get("confidence"),
+                                            "repository": context.community.url, "commit": commit})
     manual = _optional(context.manual) if wanted & {"manual", "example"} else None
     if manual is not None:
         for name, page in manual.pages.items():

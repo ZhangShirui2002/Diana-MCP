@@ -32,9 +32,9 @@
 
 | 值 | 用途 | 工具数 |
 |---|---|---:|
-| `full` | 单机部署，包含全部能力 | 41 |
+| `full` | 单机部署，包含全部能力 | 46 |
 | `compute` | DianaIE、模型、审阅门禁、求解和结果 | 25 |
-| `knowledge` | 手册、API、关键字、术语和经验 | 16 |
+| `knowledge` | 手册、API、关键字、术语、私有经验和可选社区经验 | 21 |
 
 远程模板中的主机名、用户名、私钥、Wine 前缀、DISPLAY、工作目录和 Python 路径都必须替换。不要把真实私钥路径或内网地址提交到公共仓库。
 
@@ -90,6 +90,14 @@
 | `DIANA_MCP_STATE_DIR` | `%LOCALAPPDATA%\diana-mcp` | 会话、快照、审阅记录、API/手册缓存和作业注册表 |
 | `DIANA_MCP_WORKDIR` | `<state>\work` | 临时工作和默认批处理目录 |
 | `DIANA_MCP_KNOWLEDGE_DIR` | 源码模式下为 `knowledge\` | 独立经验库 Git 仓库 |
+| `DIANA_MCP_COMMUNITY_DIR` | `<state>\community` | 社区只读缓存和脱敏 staging；与私有经验库分离 |
+| `DIANA_MCP_COMMUNITY_URL` | 官方 `Diana-MCP-Knowledge` | 要显式同步的社区 Git 仓库/镜像 |
+| `DIANA_MCP_COMMUNITY_PUSH_URL` | 与同步仓库相同 | 无官方写权限时，设置为自己的 GitHub fork；同步仍使用官方仓库 |
+| `DIANA_MCP_COMMUNITY_BRANCH` | `main` | 社区数据分支 |
+| `DIANA_MCP_DISABLE_COMMUNITY` | 未设置 | `1`/`true` 时禁用社区同步和检索 |
+| `DIANA_MCP_COMMUNITY_GIT_NAME` | 未设置 | 公开贡献的 DCO 名称 |
+| `DIANA_MCP_COMMUNITY_GIT_EMAIL` | 未设置 | 必须是 GitHub `users.noreply.github.com` 邮箱，防止泄露私人邮箱 |
+| `DIANA_MCP_COMMUNITY_GIT_PROXY` | 未设置（继承 Git） | 仅用于社区 Git；显式空字符串可绕过失效的全局代理 |
 | `DIANA_MCP_MODELS_DIR` | 源码模式下为 `models\` | 嵌入模型缓存和向量索引 |
 | `DIANA_MCP_PROFILE` | `full` | `full`、`compute` 或 `knowledge` |
 | `DIANA_MCP_VECTOR_MODEL` | 激活配置文件中的模型 | 向量模型 spec；`none`/`off` 禁用 |

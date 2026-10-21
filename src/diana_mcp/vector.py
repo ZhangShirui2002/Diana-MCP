@@ -254,6 +254,7 @@ class VectorIndex:
         self.model = ""
         self.stamp: int | None = None  # index.json's mtime when loaded or saved, to notice rebuilds by others
         self.experience_stamp: tuple | None = None  # the experience entries the vectors were last refreshed for
+        self.community_stamp: tuple | None = None  # community commit/entries last refreshed for
 
     @property
     def exists(self) -> bool:
@@ -311,7 +312,9 @@ class VectorIndex:
             ids.append(document.id)
             hashes.append(digest)
             meta.append({"source": document.source, "ref": document.ref, "title": document.title,
-                         "text": document.text[:300], **{k: v for k, v in document.meta.items() if k == "status"}})
+                         "text": document.text[:300], **{k: v for k, v in document.meta.items()
+                                                         if k in ("status", "community_status", "confidence",
+                                                                  "repository", "commit")}})
             if known and known[0] == digest:
                 origin.append(known[1])
             else:
@@ -471,23 +474,36 @@ class VectorRetriever:
     def embedder(self) -> Embedder:
         return shared_embedder(self.spec, self.device)
 
-    def _refresh_experiences(self) -> None:
-        """Re-embed experience entries that were added or edited since the index was built (the handbook grows;
-        the manual does not)."""
-        entries = self.context.experiences.entries()
-        stamp = tuple(sorted((e.id, e.updated or "", e.status, len(e.body)) for e in entries))
-        if stamp == self.index.experience_stamp:
-            return
-        documents = [d for d in self.context.documents(["experience"]) if indexable(d)]
-        indexed = {i: h for i, h in zip(self.index.ids, self.index.hashes) if i.startswith("experience:")}
-        if {d.id: content_hash(d) for d in documents} == indexed:  # nothing to do: skip copying the matrix
-            self.index.experience_stamp = stamp
-            return
-        before = list(self.index.ids)
-        stats = self.index.update(documents, self.embedder, only_prefix="experience:")
-        if stats["embedded"] or self.index.ids != before:
+    def _refresh_dynamic_sources(self) -> None:
+        """Incrementally refresh private and synchronized community experience; manuals are installation-static."""
+        private = self.context.experiences.entries()
+        sources: list[tuple[str, tuple, str]] = [
+            ("experience", tuple(sorted((e.id, e.updated or "", e.status, len(e.body)) for e in private)),
+             "experience:"),
+        ]
+        if self.context.community is not None and self.context.community.ready:
+            public = self.context.community.entries()
+            sources.append((
+                "community",
+                (self.context.community.status().get("commit"),
+                 tuple(sorted((e.id, e.updated or "", str(e.extra.get("community_status")), len(e.body))
+                              for e in public))),
+                "community:",
+            ))
+        changed = False
+        for source, stamp, prefix in sources:
+            attr = "experience_stamp" if source == "experience" else "community_stamp"
+            if stamp == getattr(self.index, attr):
+                continue
+            documents = [d for d in self.context.documents([source]) if indexable(d)]
+            indexed = {i: h for i, h in zip(self.index.ids, self.index.hashes) if i.startswith(prefix)}
+            if {d.id: content_hash(d) for d in documents} != indexed:
+                before = list(self.index.ids)
+                stats = self.index.update(documents, self.embedder, only_prefix=prefix)
+                changed = changed or bool(stats["embedded"] or self.index.ids != before)
+            setattr(self.index, attr, stamp)
+        if changed:
             self.index.save()
-        self.index.experience_stamp = stamp
 
     def search(self, query: Query, limit: int) -> list[Hit]:
         key = (self.spec, self.device)
@@ -500,17 +516,36 @@ class VectorRetriever:
                            "the embedding model is loading in the background (up to a minute after a server "
                            "start); this search used the other retrievers only")
         with _LOCK:  # one search at a time touches the shared index and model
-            self._refresh_experiences()
+            self._refresh_dynamic_sources()
             vector = self.embedder.embed([query.text], "query")[0]
             found = self.index.search(vector, limit * 4)
             best: dict[tuple[str, str], Hit] = {}
             for position, score in found:
                 meta = self.index.meta[position]
-                if meta.get("status") == "obsolete":
+                if meta.get("status") == "obsolete" or meta.get("community_status") == "obsolete":
                     continue
                 key = (meta["source"], meta["ref"])
                 if key not in best:
                     extra = {"status_key": meta["status"]} if "status" in meta else {}
+                    community_status = meta.get("community_status")
+                    if community_status:
+                        confidence = float(meta.get("confidence", 0.0))
+                        trust = {
+                            "candidate": 0.45, "community-confirmed": 0.85,
+                            "reproducibly-verified": 1.15, "disputed": 0.2, "obsolete": 0.05,
+                        }.get(community_status, 0.2) * (0.75 + 0.5 * confidence)
+                        extra.update({
+                            "community_status": community_status,
+                            "confidence": confidence,
+                            "repository": meta.get("repository"),
+                            "commit": meta.get("commit"),
+                            "trust_factor": round(trust, 3),
+                            "status_key": {
+                                "candidate": "draft", "community-confirmed": "verified",
+                                "reproducibly-verified": "verified", "disputed": "disputed",
+                                "obsolete": "obsolete",
+                            }.get(community_status, "draft"),
+                        })
                     best[key] = Hit(meta["source"], meta["ref"], meta["title"], meta["text"][:200], score, extra)
                 if len(best) >= limit:
                     break

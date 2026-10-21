@@ -48,6 +48,8 @@ def test_tools_are_registered():
         "diana_experience_add", "diana_experience_update", "diana_experience_list", "diana_experience_mine_logs",
         "diana_experience_verify", "diana_experience_review", "diana_experience_export", "diana_guide",
         "diana_review_prepare", "diana_review_status", "diana_parameter_study_prepare",
+        "diana_community_status", "diana_community_sync", "diana_community_prepare",
+        "diana_community_preview", "diana_community_contribute",
     }
 
 
@@ -70,6 +72,7 @@ def test_guide_has_every_part():
 
 @pytest.fixture
 def knowledge_dir(isolated, monkeypatch):
+    from diana_mcp.community import CommunityStore, ContributionManager
     from diana_mcp.experience import ExperienceStore
 
     for key in ("GIT_AUTHOR_NAME", "GIT_COMMITTER_NAME"):
@@ -78,7 +81,25 @@ def knowledge_dir(isolated, monkeypatch):
         monkeypatch.setenv(key, "t@e")
     monkeypatch.setenv("DIANA_MCP_STATE_DIR", str(isolated / "state"))
     monkeypatch.setattr(server, "experiences", ExperienceStore(isolated / "knowledge"))
+    monkeypatch.setattr(server, "community", CommunityStore(isolated / "community"))
+    monkeypatch.setattr(server, "contributions",
+                        ContributionManager(server.experiences, isolated / "staging", server.community))
     return isolated / "knowledge"
+
+
+def test_community_tools_prepare_without_upload(knowledge_dir):
+    entry, _ = server.experiences.add(title="C:/private/model.dat 网格失败", kind="modeling-pitfall",
+                                      symptom="10.1.2.3 报错", source="ai", entry_id="private-grid")
+    status = json.loads(text(call("diana_community_status")))
+    assert status["repository"] and status["upload_policy"] == "人工确认后才上传"
+
+    prepared = json.loads(text(call("diana_community_prepare", entry_ids=[entry.id])))
+    assert prepared["entries"] == 1 and not prepared["upload_performed"]
+    preview = json.loads(text(call("diana_community_preview", batch_id=prepared["batch_id"])))
+    assert preview["required_confirmation"] == "UPLOAD " + prepared["batch_id"]
+    assert "C:/private" not in preview["items"][0]["text"]
+    with pytest.raises(ToolError, match="UPLOAD"):
+        call("diana_community_contribute", batch_id=prepared["batch_id"], confirmation="同意")
 
 
 def test_experience_tools_draft_search_and_approve(knowledge_dir):

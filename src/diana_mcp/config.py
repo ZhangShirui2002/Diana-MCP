@@ -227,3 +227,13 @@ def knowledge_dir() -> Path:
     if (PROJECT_ROOT / "pyproject.toml").is_file():
         return PROJECT_ROOT / "knowledge"
     return state_dir() / "knowledge"
+
+
+def community_dir() -> Path:
+    """Managed cache and contribution staging for the optional public knowledge network.
+
+    This is deliberately separate from ``knowledge_dir()``: private experience history is never made a remote of
+    the public repository.  Network synchronization happens only through an explicit command/tool call.
+    """
+    override = os.environ.get("DIANA_MCP_COMMUNITY_DIR")
+    return Path(override) if override else state_dir() / "community"

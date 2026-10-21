@@ -104,7 +104,7 @@ AI 自动执行批准范围内的参数分析
 | [快速开始](docs/zh/quickstart.md) | 从克隆仓库到连接 DianaIE 的首次成功流程 |
 | [操作指南](docs/zh/user-guide.md) | 日常建模、人工审阅、基准认证、参数分析和结果读取 |
 | [配置参考](docs/zh/configuration.md) | MCP 配置、环境变量、单机/远端拆分部署和向量检索 |
-| [工具参考](docs/zh/tools.md) | 41 个 MCP 工具的用途和分组 |
+| [工具参考](docs/zh/tools.md) | 46 个 MCP 工具的用途和分组 |
 | [架构说明](docs/zh/architecture.md) | Bridge、求解作业、知识库、状态目录和安全边界 |
 | [安全与隐私](docs/zh/security-and-privacy.md) | 威胁模型、敏感文件和公开仓库检查清单 |
 | [社区知识网络](docs/zh/community-knowledge.md) | 可选的共享经验库、自动治理、同步和隐私规则 |
@@ -122,9 +122,9 @@ AI 自动执行批准范围内的参数分析
 
 历史 `.out` 日志、项目路径和经验条目可能包含敏感工程信息。公开前应单独审查；建议把公开经验库作为独立仓库维护。详见[安全与隐私](docs/zh/security-and-privacy.md)。
 
-### 可选：社区知识网络（规划中）
+### 可选：社区知识网络
 
-DIANA-MCP 计划支持三层知识融合，而不是把所有用户数据集中上传：
+DIANA-MCP 支持三层知识融合，而不是把所有用户数据集中上传：
 
 ```text
 用户本机合法安装中的手册 / API / SCHEMA
@@ -136,7 +136,16 @@ DIANA-MCP 计划支持三层知识融合，而不是把所有用户数据集中�
        版本感知、来源可追溯的统一检索
 ```
 
-社区仓库将由自动化规则维护：通过格式、许可证、脱敏、安全和重复检查的贡献只能先成为未验证草稿；系统根据独立复现、结构化反馈和版本适配自动调整可信度、标记争议或过时内容。任何本地经验都必须先生成脱敏预览并由用户明确同意，才可提交社区 Pull Request，绝不会自动上传模型、日志或结果。完整设计见[社区知识网络](docs/zh/community-knowledge.md)。
+社区仓库由自动化规则维护：通过格式、DCO、许可证、隐私和可执行内容检查的贡献只能先成为低可信度候选；系统根据独立复现反馈调整可信度并标记争议。PR 头部代码不会被检出或执行。任何本地经验都必须先生成脱敏预览并由用户明确输入该批次的 `UPLOAD <batch-id>`，才会创建公开贡献分支，绝不会自动上传模型、日志或结果。
+
+```powershell
+python -m diana_mcp knowledge community status
+python -m diana_mcp knowledge community sync
+python -m diana_mcp knowledge community redact <经验-id>
+python -m diana_mcp knowledge community preview <batch-id>
+```
+
+同步不是启动时的隐式联网操作。同步后的社区条目会带仓库、commit、状态和可信度参与 BM25 与 bge-m3 融合检索；私有经验始终优先且不会被覆盖。完整说明见[社区知识网络](docs/zh/community-knowledge.md)，公共数据仓库见 [Diana-MCP-Knowledge](https://github.com/ZhangShirui2002/Diana-MCP-Knowledge)。
 
 ## 开发与测试
 

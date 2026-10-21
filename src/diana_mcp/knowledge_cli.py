@@ -6,13 +6,61 @@ format of hand-edited files, and commit hand edits (tools commit their own chang
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 import time
 
 from .experience import STATUSES, ExperienceStore
 
 
+def community_main(argv: list[str]) -> int:
+    """CLI Adapter for the optional public knowledge source; no command performs implicit synchronization."""
+    from .community import CommunityError, CommunityStore, ContributionManager
+
+    parser = argparse.ArgumentParser(prog="python -m diana_mcp knowledge community")
+    sub = parser.add_subparsers(dest="action", required=True)
+    sub.add_parser("status", help="show local cache and contribution candidates; no network access")
+    sub.add_parser("sync", help="explicitly clone/fetch the public repository")
+    redact = sub.add_parser("redact", help="prepare local-only redacted candidates")
+    redact.add_argument("ids", nargs="*")
+    redact.add_argument("--include-obvious", action="store_true",
+                        help="when ids are omitted, also stage entries with obvious sensitive-pattern matches")
+    preview = sub.add_parser("preview", help="show the complete redacted candidates and risks")
+    preview.add_argument("batch_id")
+    contribute = sub.add_parser("contribute", help="push a reviewed batch to a public branch")
+    contribute.add_argument("batch_id")
+    contribute.add_argument("--confirm", required=True, help="must be exactly: UPLOAD <batch-id>")
+    args = parser.parse_args(argv)
+    store = CommunityStore()
+    manager = ContributionManager(ExperienceStore(), community=store)
+    try:
+        if args.action == "status":
+            report = store.status()
+            eligible = manager.eligible()
+            report["local_candidates"] = len(eligible)
+            report["low_risk_candidates"] = [e for e in eligible if not e["obvious_sensitive_matches"]]
+        elif args.action == "sync":
+            report = store.sync()
+        elif args.action == "redact":
+            ids = args.ids
+            if not ids:
+                ids = [e["id"] for e in manager.eligible()
+                       if args.include_obvious or not e["obvious_sensitive_matches"]]
+            report = manager.prepare(ids)
+        elif args.action == "preview":
+            report = manager.preview(args.batch_id, include_text=True)
+        else:
+            report = manager.contribute(args.batch_id, args.confirm)
+    except CommunityError as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+    print(json.dumps(report, ensure_ascii=False, indent=2))
+    return 0
+
+
 def main(argv: list[str]) -> int:
+    if argv and argv[0] == "community":
+        return community_main(argv[1:])
     parser = argparse.ArgumentParser(prog="python -m diana_mcp knowledge", description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("action", choices=("init", "status", "validate", "commit", "mine-outs", "verify", "handbook",

@@ -57,7 +57,7 @@ The detailed documentation is currently maintained in Chinese:
 
 ## Optional community knowledge network
 
-The planned community layer combines locally indexed DIANA documentation, an opt-in shared experience repository, and each user's private handbook. Contributions pass automated schema, license, redaction, security, duplication, and conflict checks, but enter only as unverified drafts. Local experience is never uploaded without an explicit, reviewable user decision. See the [community knowledge design](docs/zh/community-knowledge.md).
+The community layer combines locally indexed DIANA documentation, an explicitly synchronized [shared experience repository](https://github.com/ZhangShirui2002/Diana-MCP-Knowledge), and each user's private handbook. Data-only contributions pass automated schema, DCO, privacy, license, and executable-content checks, but enter only as low-trust candidates. Pull-request head code is never checked out or executed. Local experience is staged as a redacted preview and is never uploaded without the exact per-batch `UPLOAD <batch-id>` confirmation. See the [community knowledge guide](docs/zh/community-knowledge.md).
 
 ## Development
 

@@ -4,6 +4,21 @@ All notable changes to DIANA-MCP are documented here. Versions follow Semantic V
 
 ## [Unreleased]
 
+## [0.10.0] — 2026-10-22
+
+### Added
+
+- Optional Git-backed community experience source with explicit synchronization and provenance-aware retrieval.
+- Local-only redaction batches, full previews and an exact per-batch confirmation gate before public upload.
+- Incremental bge-m3 indexing for synchronized community entries.
+- Automated data-only community governance with DCO, privacy, schema, executable-content and conflict checks.
+
+### Security
+
+- Kept private `knowledge/` disconnected from the public repository and stripped evidence, approvals, checks and
+  executable verification scripts from contribution candidates.
+- Community pull requests are parsed through the GitHub API; untrusted PR head code is never checked out or run.
+
 ### Changed
 
 - Prepared public documentation and separated machine-specific configuration, user knowledge and embedding models from source control.

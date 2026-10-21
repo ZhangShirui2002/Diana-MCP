@@ -21,6 +21,7 @@ from . import changes as history
 from .api_lessons import ApiLessons, error_line
 from .api_reference import ApiReference, ApiReferenceStore, dump_code, generate_with_batch_dianaie
 from .bridge_client import BridgeError, BridgeTimeout
+from .community import CommunityError, CommunityStore, ContributionManager
 from .experience import STATUSES, TYPES, ExperienceError, ExperienceStore
 from .glossary import GlossaryError, GlossaryStore
 from .jobs import Job, JobError, JobManager, referenced_files
@@ -71,6 +72,8 @@ KNOWLEDGE_TOOLS = frozenset({
     "diana_manual_search", "diana_manual_read", "diana_knowledge_search", "diana_knowledge_feedback",
     "diana_experience_add", "diana_experience_update", "diana_experience_list", "diana_experience_verify",
     "diana_experience_export", "diana_experience_review", "diana_experience_mine_logs",
+    "diana_community_status", "diana_community_sync", "diana_community_prepare", "diana_community_preview",
+    "diana_community_contribute",
 })
 PROFILE = (os.environ.get("DIANA_MCP_PROFILE") or "full").strip().lower()
 if PROFILE not in ("full", "compute", "knowledge"):
@@ -91,6 +94,8 @@ manuals = ManualStore()
 snapshots = SnapshotStore()
 tracker = Tracker(sessions, snapshots)
 experiences = ExperienceStore()
+community = CommunityStore()
+contributions = ContributionManager(experiences, community=community)
 glossaries = GlossaryStore()
 
 
@@ -1641,10 +1646,10 @@ def _knowledge() -> KnowledgeBase:
             glossary = glossaries.get(install)
         except (FileNotFoundError, GlossaryError, OSError, ValueError):
             glossary = None
-    return KnowledgeBase(Context(install, experiences, manuals, glossary, api_store))
+    return KnowledgeBase(Context(install, experiences, manuals, glossary, api_store, community=community))
 
 
-KnowledgeSource = Literal["experience", "manual", "example", "keyword", "api"]
+KnowledgeSource = Literal["experience", "community", "manual", "example", "keyword", "api"]
 
 
 @mcp.tool(annotations=READ_ONLY)
@@ -1665,12 +1670,85 @@ def diana_knowledge_search(
 
     Args:
         query: the question or keywords, Chinese or English, e.g. "受压断裂能怎么取值", "LB40/0053", "LINPAG".
-        sources: restrict to some of experience, manual, example, keyword, api.
+        sources: restrict to some of experience, community, manual, example, keyword, api.
         limit: number of results.
         include_obsolete: also return experiences marked obsolete.
     """
     return _with_tips(_knowledge().search(query, sources=sources, limit=max(1, min(int(limit), 40)),
                                           include_obsolete=include_obsolete))
+
+
+@mcp.tool(annotations=READ_ONLY)
+def diana_community_status() -> dict[str, Any]:
+    """Show whether the optional public community knowledge cache is synchronized, its exact Git commit and trust
+    levels, plus low-risk local entries that could be prepared for review. This performs no network access."""
+    result = community.status()
+    eligible = contributions.eligible()
+    result["local_candidates"] = len(eligible)
+    result["low_risk_candidates"] = [item for item in eligible if not item["obvious_sensitive_matches"]]
+    result["upload_policy"] = "人工确认后才上传"
+    return result
+
+
+@mcp.tool(annotations=ToolAnnotations(idempotent_hint=True, open_world_hint=True))
+def diana_community_sync() -> dict[str, Any]:
+    """Explicitly download/update the optional public community experience repository.
+
+    Community content is read only as Markdown data; no contributed Python or other executable file is run. There
+    is no hidden startup synchronization, so this tool is the network-consent boundary.
+    """
+    try:
+        report = community.sync()
+        report["next"] = "社区经验已接入 diana_knowledge_search；来源、commit、状态和可信度会随结果显示。"
+        return report
+    except CommunityError as exc:
+        raise ToolError(str(exc)) from exc
+
+
+@mcp.tool(annotations=ToolAnnotations(open_world_hint=False))
+def diana_community_prepare(entry_ids: list[str] | None = None, recommended_only: bool = True) -> dict[str, Any]:
+    """Create local-only redacted copies of private experience entries for human review; never upload them.
+
+    Args:
+        entry_ids: exact private experience ids. Omit to select entries without history-log provenance, scripts or
+            obvious sensitive-pattern matches.
+        recommended_only: when entry_ids is omitted, exclude entries with obvious sensitive-pattern matches.
+    """
+    try:
+        selected = entry_ids
+        if selected is None:
+            eligible = contributions.eligible()
+            selected = [item["id"] for item in eligible
+                        if not recommended_only or not item["obvious_sensitive_matches"]]
+        report = contributions.prepare(selected)
+        report["next"] = (f"调用 diana_community_preview(batch_id={report['batch_id']!r}) 逐条审阅；"
+                          "不要仅凭自动扫描结果批准公开。")
+        return report
+    except (CommunityError, ExperienceError) as exc:
+        raise ToolError(str(exc)) from exc
+
+
+@mcp.tool(annotations=READ_ONLY)
+def diana_community_preview(batch_id: str) -> dict[str, Any]:
+    """Read every redacted candidate and its risk report before deciding whether it may be public."""
+    try:
+        return contributions.preview(batch_id, include_text=True)
+    except CommunityError as exc:
+        raise ToolError(str(exc)) from exc
+
+
+@mcp.tool(annotations=ToolAnnotations(destructive_hint=True, open_world_hint=True))
+def diana_community_contribute(batch_id: str, confirmation: str) -> dict[str, Any]:
+    """Upload a reviewed redaction batch to a public contribution branch.
+
+    This is a public external write. It runs only when confirmation is exactly ``UPLOAD <batch_id>`` from the user
+    after reviewing diana_community_preview. Uploaded entries remain low-trust candidates; repository automation
+    validates them and the returned compare URL is used to open a pull request.
+    """
+    try:
+        return contributions.contribute(batch_id, confirmation)
+    except CommunityError as exc:
+        raise ToolError(str(exc)) from exc
 
 
 @mcp.tool()

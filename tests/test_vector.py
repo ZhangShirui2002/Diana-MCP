@@ -5,6 +5,7 @@ import time
 import pytest
 
 from diana_mcp import config, knowledge, vector
+from diana_mcp.community import CommunityStore
 from diana_mcp.experience import ExperienceStore
 from diana_mcp.knowledge import Context, Document, KnowledgeBase
 from diana_mcp.manual import Manual, ManualStore
@@ -131,6 +132,31 @@ def test_new_experiences_are_embedded_before_searching(context):
     reloaded = vector.VectorIndex(vector.index_for("hash").folder).load()
     assert "experience:linpag-zero" in reloaded.ids  # saved for the next server start
     assert vector.factory(context).index is retriever.index  # its own save does not force a reload
+
+
+def test_synced_community_entries_incrementally_join_the_vector_index(context, tmp_path):
+    vector.build(context, "hash:72")
+    retriever = vector.factory(context)
+    root = tmp_path / "community"
+    (root / ".git").mkdir(parents=True)
+    folder = root / "experiences" / "candidate"
+    folder.mkdir(parents=True)
+    source = context.experiences.get("hordijk-curve")
+    text = source.to_text().replace(
+        "id: hordijk-curve", "id: community-contact-status",
+    ).replace(
+        "title: Hordijk tension softening curve", "title: Contact status output interpretation",
+    ).replace(
+        "status: draft", "status: draft\ncommunity_status: candidate\nconfidence: 0.2",
+    ).replace("TENCRV HORDYK", "CONTACT STATUS STICK SLIP")
+    (folder / "community-contact-status.md").write_text(text, encoding="utf-8")
+    context.community = CommunityStore(root)
+
+    hits = retriever.search(knowledge.Query("CONTACT STATUS STICK SLIP"), 5)
+
+    assert ("community", "community-contact-status") in [(h.source, h.ref) for h in hits]
+    loaded = vector.VectorIndex(vector.index_for("hash:72").folder).load()
+    assert "community:community-contact-status" in loaded.ids
 
 
 def test_the_plugin_joins_the_fusion_and_can_be_switched_off(context, monkeypatch):
