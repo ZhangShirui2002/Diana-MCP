@@ -29,7 +29,7 @@ DIANA-MCP v0.9.0 是首个计划公开发布的版本。它把 DianaIE 实时控
 ## 安装
 
 ```powershell
-git clone https://github.com/YOUR_ACCOUNT/diana-mcp.git
+git clone https://github.com/ZhangShirui2002/Diana-MCP.git
 Set-Location diana-mcp
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e .

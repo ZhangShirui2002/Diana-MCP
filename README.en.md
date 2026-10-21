@@ -25,7 +25,7 @@ This project does not include DIANA, a DIANA license, or the DIANA user manual. 
 Requirements: DIANA 10.5 with a valid license, Python 3.10+, and an MCP stdio client.
 
 ```powershell
-git clone https://github.com/YOUR_ACCOUNT/diana-mcp.git
+git clone https://github.com/ZhangShirui2002/Diana-MCP.git
 Set-Location diana-mcp
 py -3.11 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install --upgrade pip

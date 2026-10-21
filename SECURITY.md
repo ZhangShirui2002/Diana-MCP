@@ -8,7 +8,7 @@ Security fixes are applied to the latest released minor version. Older snapshots
 
 Do not open a public GitHub issue for a vulnerability that could expose local files, execute code, bypass the solver review gate, reuse a one-time permit, or connect to another user's DianaIE session.
 
-Before the public repository is created, report privately to the repository owner. After publication, configure GitHub Security Advisories and replace this paragraph with the repository's private advisory URL or security email.
+Use [GitHub's private vulnerability reporting](https://github.com/ZhangShirui2002/Diana-MCP/security/advisories/new). If that form is unavailable, contact the repository owner privately and do not include exploit details in a public issue.
 
 Include:
 

@@ -25,6 +25,13 @@ classifiers = [
 ]
 dependencies = ["mcp>=2.2,<3"]
 
+[project.urls]
+Homepage = "https://github.com/ZhangShirui2002/Diana-MCP"
+Documentation = "https://github.com/ZhangShirui2002/Diana-MCP/tree/main/docs"
+Repository = "https://github.com/ZhangShirui2002/Diana-MCP.git"
+Issues = "https://github.com/ZhangShirui2002/Diana-MCP/issues"
+Changelog = "https://github.com/ZhangShirui2002/Diana-MCP/blob/main/CHANGELOG.md"
+
 [project.optional-dependencies]
 dev = ["pytest>=8"]
 # Semantic retrieval: numpy for the index, sentence-transformers (PyTorch) for the model. For a GPU install the CUDA

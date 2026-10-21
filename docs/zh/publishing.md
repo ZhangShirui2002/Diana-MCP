@@ -39,10 +39,10 @@ Set-Location C:\path\to\diana-mcp
 检查文档链接和占位符：
 
 ```powershell
-rg -n "YOUR_ACCOUNT|C:\\path\\to|user@diana-compute-host|/path/to" README* docs .mcp*.json
+rg -n "C:\\path\\to|user@diana-compute-host|/path/to" README* docs .mcp*.json
 ```
 
-这些值在模板和发布指南中可以保留，但正式 GitHub URL 一旦确定，应把 README 的 `YOUR_ACCOUNT` 替换为真实账号。
+这些值是配置模板中的刻意占位符，可以保留；README 和安装文档应使用正式仓库地址。
 
 ## 3. 初始化主 Git 仓库
 
@@ -125,8 +125,8 @@ gh auth status
 设置变量。下面两项都是示例，必须替换：
 
 ```powershell
-$GitHubOwner = "your-account-or-organization"
-$RepositoryName = "diana-mcp"
+$GitHubOwner = "ZhangShirui2002"
+$RepositoryName = "Diana-MCP"
 ```
 
 建议先创建 private 仓库完成一次远程预演：

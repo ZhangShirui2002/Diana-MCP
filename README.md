@@ -33,7 +33,7 @@ DIANA-MCP 连接正在运行的 DianaIE 图形界面，也可以调用后台 `di
 ### 2. 安装
 
 ```powershell
-git clone https://github.com/YOUR_ACCOUNT/diana-mcp.git
+git clone https://github.com/ZhangShirui2002/Diana-MCP.git
 Set-Location diana-mcp
 py -3.11 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install --upgrade pip

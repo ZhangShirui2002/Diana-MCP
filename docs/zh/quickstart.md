@@ -13,10 +13,8 @@ DIANA-MCP 不包含 DIANA、许可证、用户手册或求解器。使用者负�
 
 ## 2. 安装
 
-下面的 `YOUR_ACCOUNT` 是占位符，请替换为发布仓库所属的 GitHub 用户名或组织名。
-
 ```powershell
-git clone https://github.com/YOUR_ACCOUNT/diana-mcp.git
+git clone https://github.com/ZhangShirui2002/Diana-MCP.git
 Set-Location diana-mcp
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -U pip
