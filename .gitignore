@@ -34,6 +34,7 @@ examples/**/*.ff
 examples/**/*.log
 
 # Unrelated/private research notes kept in this working copy
+research/
 docs/revit-mcp-research-*.md
 docs/sky-001-vs-revit-mcp-*.md
 docs/civil-revit-deep-research-*.md
